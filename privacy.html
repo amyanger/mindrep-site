@@ -38,55 +38,103 @@
 <body>
     <a href="/" class="back">&larr; MindRep</a>
     <h1>Privacy Policy</h1>
-    <p class="date">Last updated: 24 February 2026</p>
+    <p class="date">Last updated: 1 May 2026</p>
 
     <h2>Overview</h2>
-    <p>MindRep ("we", "us", "our") is a mental wellness app designed to help you build mental resilience. Your privacy is fundamental to everything we build. This policy explains what data we collect, how we use it, and your rights.</p>
+    <p>MindRep ("we", "us", "our") is a mental wellness app designed to help you build mental resilience. This policy explains what data we collect, how it is stored, who processes it on our behalf, and your rights under UK GDPR and the Data Protection Act 2018.</p>
+
+    <h2>Who Is the Data Controller</h2>
+    <p>MindRep is operated as a sole-trader product by Arjun Myanger, United Kingdom. Contact: <a href="mailto:admyanger@outlook.com">admyanger@outlook.com</a>.</p>
 
     <h2>Data We Collect</h2>
-    <p><strong>Data you provide:</strong></p>
+    <p><strong>Account information (from Sign in with Apple):</strong></p>
     <ul>
-        <li>Mood check-ins, journal entries, and breathing session records</li>
-        <li>Sleep quality ratings</li>
-        <li>Onboarding preferences (goals, persona selection)</li>
-        <li>Notification preferences</li>
+        <li>Apple-issued user identifier (used as your account ID)</li>
+        <li>Email address (often Apple's "Hide My Email" private relay address)</li>
+        <li>Display name, if you choose to share it during sign-in</li>
     </ul>
-    <p><strong>Data from Apple HealthKit (with your permission):</strong></p>
+    <p><strong>Mental wellness content you create in the app:</strong></p>
+    <ul>
+        <li>Mood check-ins, sleep check-ins, morning predictions</li>
+        <li>Thought records, journal-style reflections, breathing session logs</li>
+        <li>Substance logs and clean-streak data</li>
+        <li>Onboarding choices: persona, goals, intentions, notification preferences</li>
+        <li>Progression metadata: XP, achievements, streaks</li>
+    </ul>
+    <p><strong>Apple HealthKit data (only if you grant permission):</strong></p>
     <ul>
         <li>Workout data (type, duration, calories)</li>
-        <li>Sleep analysis data</li>
+        <li>Sleep analysis</li>
         <li>Activity data (steps, active energy)</li>
     </ul>
+    <p>HealthKit data is read on-device. Derived signals (e.g. "user worked out today", "sleep score 72") are written to your account in our cloud database alongside your other entries to enable correlation insights across devices.</p>
+    <p><strong>Subscription state:</strong></p>
+    <ul>
+        <li>Whether you have an active Pro subscription, used a free trial, and the trial-used flag</li>
+    </ul>
+    <p>Apple processes the actual purchase and payment. We never see your card details.</p>
     <p><strong>Data we do NOT collect:</strong></p>
     <ul>
-        <li>Your name, email, or any personally identifiable information</li>
-        <li>Location data</li>
-        <li>Contacts or photos</li>
-        <li>Advertising identifiers</li>
+        <li>Location (precise or coarse)</li>
+        <li>Contacts, photos, microphone, or camera input</li>
+        <li>Advertising identifiers; we do not run ads or share data with advertisers</li>
+        <li>Third-party analytics or tracking SDK signals; MindRep ships with no analytics or crash-reporting SDK</li>
     </ul>
 
     <h2>Where Your Data Is Stored</h2>
-    <p>All your mental health data is stored <strong>locally on your device</strong>. We do not have servers that store your personal data. Your check-ins, journal entries, and health correlations never leave your phone unless you explicitly choose to export them.</p>
+    <p>Your account data is stored on <strong>Google Firebase (Cloud Firestore + Firebase Authentication)</strong>, hosted in Google Cloud's <code>europe-west2</code> (London) region. Each Firestore document is keyed by your Apple-issued user ID, so all data is linked to your identity.</p>
+    <p>The app keeps a local Firestore cache so it works offline. HealthKit raw data remains in Apple's HealthKit store on your device; only the derived signals listed above are written to our cloud database.</p>
 
-    <h2>HealthKit Data</h2>
-    <p>If you grant HealthKit permissions, MindRep reads workout, sleep, and activity data solely to provide correlations and insights (e.g., "You felt better on days you exercised"). We never write to HealthKit without your knowledge. HealthKit data is never shared with third parties, used for advertising, or transmitted off your device.</p>
+    <h2>Sub-processors</h2>
+    <p>We rely on the following third parties to operate the service:</p>
+    <ul>
+        <li><strong>Google Ireland Ltd (Firebase / Google Cloud)</strong> — authentication, database hosting, account-deletion cascade, push notifications</li>
+        <li><strong>Apple Inc.</strong> — Sign in with Apple, App Store / StoreKit subscription billing, HealthKit, push delivery (APNs)</li>
+    </ul>
+    <p>We do not sell or share your data with any other third party.</p>
+
+    <h2>Legal Basis (UK GDPR)</h2>
+    <p>Mental health data is a "special category" of personal data under UK GDPR Article 9. We process it on the basis of your <strong>explicit consent</strong>, given when you sign up and accept this policy. You can withdraw that consent at any time by deleting your account in Settings, which permanently erases your data (see "Data Export and Deletion" below).</p>
+    <p>For contractual data — your account record and subscription state — the legal basis is performance of contract (UK GDPR Article 6(1)(b)).</p>
+
+    <h2>Data Retention</h2>
+    <p>We retain your data for as long as your account exists. When you delete your account, your Firestore data is removed via Firebase's automated <em>delete-user-data</em> extension, typically within minutes. Apple authentication records and StoreKit subscription history are retained by Apple under their own terms.</p>
+
+    <h2>HealthKit</h2>
+    <p>If you grant HealthKit permissions, MindRep reads workout, sleep, and activity data to compute correlations and insights (e.g. "you sleep better on workout days"). We never write to HealthKit without your knowledge, and we never share HealthKit-derived data with advertisers, data brokers, or analytics providers.</p>
 
     <h2>Subscription Data</h2>
-    <p>Subscription purchases are processed entirely by Apple through the App Store. We do not collect or store your payment information. Apple's privacy policy governs payment processing.</p>
+    <p>Subscription purchases are processed entirely by Apple through the App Store. Apple's privacy policy governs payment processing. We store only the resulting entitlement state (Pro or Free) and a one-way "trial used" flag in your account record so we don't repeatedly offer trials.</p>
 
-    <h2>Analytics</h2>
-    <p>MindRep does not currently use any third-party analytics or tracking services. We do not track your behaviour, serve ads, or sell your data.</p>
+    <h2>Analytics, Tracking, and Advertising</h2>
+    <p>MindRep uses no third-party analytics SDK, no crash-reporting SDK, and serves no advertising. We do not track you across apps or websites. The Apple App Tracking Transparency framework therefore returns no tracking permission requests.</p>
 
-    <h2>Data Export &amp; Deletion</h2>
-    <p>You can export your data at any time from Settings within the app. To delete all your data, go to Settings and use the "Delete All Data" option, or simply delete the app from your device. Since data is stored locally, deleting the app removes all data permanently.</p>
+    <h2>Data Export and Deletion</h2>
+    <p>You can export your data from <strong>Settings &rarr; Export Data</strong> at any time. To delete your account and all associated data, go to <strong>Settings &rarr; Delete Account</strong> and reauthenticate with Apple. Within minutes your Firestore record tree is automatically deleted by the Firebase delete-user-data extension. Local device caches are wiped at sign-out, and uninstalling the app removes any remaining on-device cache.</p>
+
+    <h2>Your Rights (UK GDPR &amp; Data Protection Act 2018)</h2>
+    <ul>
+        <li>Right to access a copy of your data (use Export Data, or email us)</li>
+        <li>Right to rectification of inaccurate data</li>
+        <li>Right to erasure (use Delete Account, or email us)</li>
+        <li>Right to data portability (export is JSON / PDF)</li>
+        <li>Right to withdraw consent at any time</li>
+        <li>Right to lodge a complaint with the UK Information Commissioner's Office at <a href="https://ico.org.uk">ico.org.uk</a></li>
+    </ul>
+
+    <h2>Security</h2>
+    <p>Data in transit between the app and Firebase is encrypted with TLS. Data at rest in Cloud Firestore is encrypted by Google. Firestore security rules restrict every document so that only the authenticated owner can read or write it.</p>
 
     <h2>Children's Privacy</h2>
     <p>MindRep is not directed at children under 13. We do not knowingly collect data from children.</p>
 
+    <h2>International Transfers</h2>
+    <p>Your data is processed in the United Kingdom and the European Economic Area (Google Cloud <code>europe-west2</code>). Apple may process authentication and StoreKit data in the United States under standard contractual clauses; this is governed by Apple's privacy policy.</p>
+
     <h2>Changes to This Policy</h2>
-    <p>We may update this policy from time to time. Changes will be posted on this page with an updated date. Continued use of MindRep after changes constitutes acceptance of the revised policy.</p>
+    <p>We may update this policy as the product evolves. Material changes will be surfaced inside the app. The "Last updated" date at the top reflects the most recent revision.</p>
 
     <h2>Contact</h2>
-    <p>If you have questions about this privacy policy, contact us at <a href="mailto:admyanger@outlook.com">admyanger@outlook.com</a>.</p>
+    <p>If you have questions about this privacy policy or want to exercise any of your rights, contact us at <a href="mailto:admyanger@outlook.com">admyanger@outlook.com</a>.</p>
 </body>
 </html>
